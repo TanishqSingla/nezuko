@@ -6,6 +6,9 @@ client.once("ready", () => {
   console.log("Ready!");
 });
 
+//? A feature to hide nezuko
+var day = false;
+
 client.on("message", message => {
   //! n?kill command prompts
   let killPrompt = [
@@ -13,14 +16,14 @@ client.on("message", message => {
     `Stop killing people, Baka!`,
     `Stop your slaughter party`,
     `hmmph hmmph, hmmph`,
-    `The knife you threw bounced back and pierced your shoulder, now stop this stupid games of your`
+    `You tried to kill a stranger but he smacked you in face`
   ];
 
   let pre = message.content; //message.content was annoying so I assigned it to a variable 'pre'
   let killPromptLen = killPrompt.length;
   // ! n?kill command
   if (pre.startsWith(`${prefix}kill`)) {
-    let random = Math.floor(Math.random() * killPromptLen);
+    let random = Math.floor(Math.random() * killPromptLen + 1);
     message.channel.send(killPrompt[random]);
   }
   //  ! n?help command or n? prompt for help
@@ -32,11 +35,11 @@ client.on("message", message => {
 
   /* *
   ! n?punch command 
-  TODO complete the punch command with mentions
+  TODO - complete the punch command with mentions
   **/
 
-  if (pre.startsWith(`${prefix}punch`)) {
-    //fun case
+  if (pre.startsWith(`${prefix}punch`) && !day) {
+    //?fun case
     if (pre === `${prefix}punch tanjiro`) {
       message.channel.send(`Don't you even think about it`);
     } else {
@@ -46,10 +49,27 @@ client.on("message", message => {
     }
   }
 
+  // ! n?day command
+  if (pre.startsWith(`${prefix}day`)) {
+    let bool = pre.split(" ")[1];
+
+    if (bool == "true") {
+      day = true;
+      message.channel.send(`Oh no! it's day. *nezuko hides*`);
+    } else if (bool == "false" && day == true) {
+      message.channel.send(
+        `Phew! did you missed me? :smirk: but don't worry once I reverse the curse of Muzan the day won't scare me`
+      );
+      day = false;
+    } else {
+      message.channel.send(`It's already night`);
+    }
+  }
+
   // * <---Commands for those who can manage permission
   if (message.member.hasPermission("MANAGE_MESSAGES")) {
     //!<---n?clear command
-    if (pre.startsWith(`${prefix}clearChat`)) {
+    if (pre.startsWith(`${prefix}clear`) && !day) {
       let count = message.content.split(" ")[1];
       if (count != null) {
         message.channel.bulkDelete(count);
