@@ -9,6 +9,9 @@ client.once("ready", () => {
 //? A feature to hide nezuko
 var day = false;
 
+//? Bad word filter trigger
+var bWord = false;
+
 client.on("message", message => {
   //! n?kill command prompts
   let killPrompt = [
@@ -19,18 +22,15 @@ client.on("message", message => {
     `You tried to kill a stranger but he smacked you in face`
   ];
 
-  let pre = message.content; //message.content was annoying so I assigned it to a variable 'pre'
   let killPromptLen = killPrompt.length;
   // ! n?kill command
-  if (pre.startsWith(`${prefix}kill`)) {
+  if (message.content.startsWith(`${prefix}kill`)) {
     let random = Math.floor(Math.random() * killPromptLen + 1);
     message.channel.send(killPrompt[random]);
   }
   //  ! n?help command or n? prompt for help
-  if (pre === `${prefix}` || pre === `${prefix}help`) {
-    message.channel.send(
-      `Looks like you need help\n:sob: well the help prompt is still not ready, I'll try my best next time`
-    );
+  if (message.content === `${prefix}` || message.content === `${prefix}help`) {
+    message.channel.send(`:warning: n?help command in under maintainance`);
   }
 
   /* *
@@ -38,9 +38,9 @@ client.on("message", message => {
   TODO - complete the punch command with mentions
   **/
 
-  if (pre.startsWith(`${prefix}punch`) && !day) {
+  if (message.content.startsWith(`${prefix}punch`) && !day) {
     //?fun case
-    if (pre === `${prefix}punch tanjiro`) {
+    if (message.content === `${prefix}punch tanjiro`) {
       message.channel.send(`Don't you even think about it`);
     } else {
       message.channel.send(
@@ -50,15 +50,15 @@ client.on("message", message => {
   }
 
   // ! n?day command
-  if (pre.startsWith(`${prefix}day`)) {
-    let bool = pre.split(" ")[1];
+  if (message.content.startsWith(`${prefix}day`)) {
+    let bool = message.content.split(" ")[1];
 
     if (bool == "true") {
       day = true;
       message.channel.send(`Oh no! it's day. *nezuko hides*`);
     } else if (bool == "false" && day == true) {
       message.channel.send(
-        `Phew! did you missed me? :smirk: but don't worry once I reverse the curse of Muzan the day won't scare me`
+        `Phew! did you missed me? but don't worry once I reverse the curse of Muzan the day won't scare me`
       );
       day = false;
     } else {
@@ -66,21 +66,38 @@ client.on("message", message => {
     }
   }
 
-  // * <---Commands for those who can manage permission
-  if (message.member.hasPermission("MANAGE_MESSAGES")) {
-    //!<---n?clear command
-    if (pre.startsWith(`${prefix}clear`) && !day) {
-      let count = message.content.split(" ")[1];
-      if (count != null) {
-        message.channel.bulkDelete(count);
-      } else {
-        message.channel.send(
-          `oops! looks like the number of message is missing`
-        );
-        message.channel.bulkDelete(1);
-      }
+  //!<---n?clear command
+
+  if (message.content.startsWith(`${prefix}clear`) && !day) {
+    let count = message.content.split(" ")[1];
+    if (count != null) {
+      message.channel.bulkDelete(count);
+    } else {
+      message.channel.send(`oops! looks like the number of message is missing`);
+      message.channel.bulkDelete(1);
     }
-    // * ---> end of n?clear
+  }
+  // TODO make the following commannds for admins only
+  //? bad word filter trigger
+  if (message.content.startsWith(`${prefix}filter`)) {
+    let key = message.content.split(" ")[1];
+    if (key == "on") {
+      bWord = true;
+      message.channel.send("Bad Words filter is on");
+    } else if (key == "off") {
+      bWord = false;
+      message.channel.send("Bad Words filter is off");
+    } else {
+      message.chanel.send("Please specify `on` or `off` value");
+    }
+  }
+  // ! word filter for nezuko
+  let badWords = ["nigga", "cunt", "cuck", "slut", "thot", "d1ck", "cnut"];
+  if (badWords.some(w => message.content.includes(w)) && bWord) {
+    let sender = message.author;
+    message.channel.bulkDelete(1);
+    message.channel.send(`Watch your language ${sender}`);
+    message.channel.bulkDelete(1);
   }
 });
 
