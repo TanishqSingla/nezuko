@@ -19,13 +19,13 @@ client.on("message", message => {
     `Stop killing people, Baka!`,
     `Stop your slaughter party`,
     `hmmph hmmph, hmmph`,
-    `You tried to kill a stranger but he smacked you in face`
+    `You tried to kill a stranger but he smacked you in face``Your sword slipped from your hand while swinging and hit your brain`
   ];
 
   let killPromptLen = killPrompt.length;
   // ! n?kill command
   if (message.content.startsWith(`${prefix}kill`)) {
-    let random = Math.floor(Math.random() * killPromptLen + 1);
+    let random = Math.floor(Math.random() * (killPromptLen + 1));
     message.channel.send(killPrompt[random]);
   }
   //  ! n?help command or n? prompt for help
@@ -92,7 +92,7 @@ client.on("message", message => {
     }
   }
   // ! word filter for nezuko
-  let badWords = ["nigga", "cunt", "cuck", "slut", "thot", "d1ck", "cnut"];
+  let badWords = ["nigga", "cunt", "cuck", "slut", "thot", "cnut"];
   if (badWords.some(w => message.content.includes(w)) && bWord) {
     let sender = message.author;
     message.channel.bulkDelete(1);
