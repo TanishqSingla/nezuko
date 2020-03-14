@@ -31,7 +31,14 @@ client.on("message", message => {
   }
   //  ! n?help command or n? prompt for help
   if (message.content === `${prefix}` || message.content === `${prefix}help`) {
-    message.channel.send(`:warning: n?help command in under maintainance`);
+    message.channel.send(`
+      For now you can use the following command:
+      The prefix for all the commands is \`n?\`
+      > \`kill\`: This command is just for fun.
+      > \`help \`: This command opens up the help pallete.
+      > \`punch\`: :warning: This command in under maintainence :warning:
+      > \`clear\`: This clears the chat section
+    `);
   }
 
   /* *
@@ -89,7 +96,7 @@ client.on("message", message => {
       bWord = false;
       message.channel.send("Bad Words filter is off");
     } else {
-      message.chanel.send("Please specify `on` or `off` value");
+      message.channel.send("Please specify `on` or `off` value");
     }
   }
   // ! word filter for nezuko
@@ -101,7 +108,8 @@ client.on("message", message => {
     "thot",
     "cnut",
     "nigg",
-    "nigger"
+    "nigger",
+    "fucker"
   ];
   if (badWords.some(w => message.content.includes(w)) && bWord) {
     let sender = message.author;
