@@ -90,10 +90,10 @@ client.on("message", message => {
   //? bad word filter trigger
   if (message.content.startsWith(`${prefix}filter`)) {
     let key = message.content.split(" ")[1];
-    if (key == "on") {
+    if (key == "on" && !bWord) {
       bWord = true;
       message.channel.send("Bad Words filter is on");
-    } else if (key == "off") {
+    } else if (key == "off" && bWord) {
       bWord = false;
       message.channel.send("Bad Words filter is off");
     } else {
