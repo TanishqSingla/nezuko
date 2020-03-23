@@ -101,18 +101,8 @@ client.on("message", message => {
 		}
 	}
 	// ! word filter for nezuko
-	let badWords = [
-		"nigga",
-		"cunt",
-		"cuck",
-		"slut",
-		"thot",
-		"cnut",
-		"nigg",
-		"nigger",
-		"fucker"
-	];
-	if (badWords.some(w => message.content.includes(w)) && bWord) {
+	//TODO debug the below function
+	if (wFilter(message.content)) {
 		let sender = message.author;
 		message.channel.bulkDelete(1);
 		message.channel.send(`Watch your language ${sender}`);
