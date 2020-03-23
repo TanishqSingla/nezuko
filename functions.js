@@ -1,25 +1,26 @@
 const wFilter = cont => {
-	let words = [
-		"nigga",
-		"cunt",
-		"cuck",
-		"slut",
-		"thot",
-		"cnut",
-		"nigg",
-		"nigger",
-		"fucker"
-	];
-	let contArray = cont.toLowerCase().split(" ");
-	console.log(contArray);
-	for (i in contArray) {
-		for (j in words) {
-			if (i === j) {
-				return true;
-				break;
-			}
-		}
-	}
+  let words = [
+    "nigga",
+    "cunt",
+    "cuck",
+    "slut",
+    "thot",
+    "cnut",
+    "nigg",
+    "nigger",
+    "fucker"
+  ];
+  let contArray = cont.toLowerCase().split(" ");
+  for (let i in contArray) {
+    for (let j in words) {
+      if (contArray[i] === words[j]) {
+        return true;
+      }
+    }
+  }
+  if (wFilter == undefined) {
+    wFilter = false;
+  }
 };
 
-module.exports = wFilter();
+module.exports = wFilter;
