@@ -3,5 +3,5 @@ const modCommands = {
 };
 
 module.exports = {
-  clear: clear
+  clear
 };
