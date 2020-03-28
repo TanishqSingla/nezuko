@@ -5,6 +5,7 @@ const client = new Discord.Client();
 
 //? Adding utilities
 const basic = require("./utils/basic");
+console.log(badWords);
 
 //?Code for bot
 client.once("ready", () => {
@@ -19,8 +20,7 @@ client.on("message", msg => {
 		});
 	}
 	//? clear command
-	//TODO review the below command
-	if (msg.content.startsWith(`${pre}clear`)) {
+	if (msg.content.startsWith(`${prefix}clear`)) {
 		try {
 			let count = msg.content.split(" ")[1];
 			msg.channel.bulkDelete(count);

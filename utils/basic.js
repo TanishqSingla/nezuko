@@ -5,5 +5,6 @@ const help = callback => {
 };
 
 module.exports = {
-	help
+	help,
+	badWords
 };
