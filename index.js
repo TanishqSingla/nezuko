@@ -5,7 +5,6 @@ const client = new Discord.Client();
 
 //? Adding utilities
 const basic = require("./utils/basic");
-console.log(badWords);
 
 //?Code for bot
 client.once("ready", () => {
@@ -14,6 +13,7 @@ client.once("ready", () => {
 
 //? help command
 client.on("message", msg => {
+	const author = msg.author;
 	if (msg.content.startsWith(`${prefix}help`)) {
 		basic.help(help => {
 			msg.channel.send(help);
@@ -29,6 +29,11 @@ client.on("message", msg => {
 			console.log(e);
 		}
 	}
+	//? <----- Word filter
+	if (basic.badWords.some(w => msg.content.toLowerCase().includes(w))) {
+		msg.delete();
+	}
+	//? -------->
 });
 
 //?This statement makes the bot work
