@@ -19,8 +19,11 @@ client.on("message", msg => {
   const command = args.shift().toLowerCase();
   const parameter = args.shift();
 
-  //* if message send by a bot
-  if (author.bot) return;
+  //check for prefix
+  const checkPrefix = msg.content.substring(0, 2) === prefix;
+  if (checkPrefix && author.bot)
+    //* if message send by a bot
+    return;
 
   //? help command
   if (command === "help") {
@@ -39,7 +42,10 @@ client.on("message", msg => {
   }
 
   //? Word filter
-  if (basic.badWords.some(w => msg.content.toLowerCase().includes(w))) {
+  if (
+    basic.badWords.some(w => msg.content.toLowerCase().includes(w)) &&
+    filter
+  ) {
     msg.delete();
     msg.channel.send(`Watch your language ${author}`).then(msg => {
       setTimeout(() => {
