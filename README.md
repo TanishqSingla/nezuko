@@ -16,4 +16,4 @@ This repo only contains the index.js file of the whole project
 * Use `n?` or `n?help` to get all the commands
 
 
-#### Note: The commands would only work when the bot is online, and the bot comes online irregularly
+#### Note: The commands would only work when the bot is online, and since the bot is not hosted on any online server, you most probably have to dm me to make it work.
