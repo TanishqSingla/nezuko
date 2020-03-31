@@ -1,10 +1,25 @@
 //?Adding Discord
+const fs = require("fs");
 const Discord = require("discord.js");
 const { prefix, token } = require("./config.json");
-const client = new Discord.Client();
 
-//? Adding utilities
-const basic = require("./utils/basic");
+//Discord client
+const client = new Discord.Client();
+client.commands = new Discord.Collection();
+
+const commandFiles = fs
+  .readdirSync("./commands")
+  .filter(file => file.endsWith(".js"));
+
+for (const file of commandFiles) {
+  const command = require(`./commands/${file}`);
+
+  //? setting commands with their respective name
+  client.commands.set(command.name, command);
+}
+
+//utils
+const basic = require("./commands/utils");
 
 //?Code for bot
 client.once("ready", () => {
@@ -27,25 +42,16 @@ client.on("message", msg => {
 
   //? help command
   if (command === "help") {
-    basic.help(help => {
-      msg.channel.send(help);
-    });
+    client.commands.get("help").execute(msg);
   }
 
   //? clear command
   if (command === "clear") {
-    if (parameter !== undefined) {
-      msg.channel.bulkDelete(Number(parameter));
-    } else {
-      msg.channel.send("Oops something went wrong");
-    }
+    client.commands.get("clear").execute(msg, parameter);
   }
 
   //? Word filter
-  if (
-    basic.badWords.some(w => msg.content.toLowerCase().includes(w)) &&
-    filter
-  ) {
+  if (basic.badWords.some(w => msg.content.toLowerCase().includes(w))) {
     msg.delete();
     msg.channel.send(`Watch your language ${author}`).then(msg => {
       setTimeout(() => {
@@ -55,9 +61,7 @@ client.on("message", msg => {
   }
 
   if (command === "kill") {
-    basic.kill(killMsg => {
-      msg.channel.send(killMsg);
-    });
+    client.commands.get("kill").execute(msg);
   }
 });
 
