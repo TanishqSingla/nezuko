@@ -1,6 +1,6 @@
 {
   "name": "nezuko",
-  "version": "1.0.0",
+  "version": "0.5.0",
   "description": "A discord bot made using js",
   "main": "index.js",
   "scripts": {
