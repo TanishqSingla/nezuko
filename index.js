@@ -21,9 +21,9 @@ client.on("message", msg => {
 
   //check for prefix
   const checkPrefix = msg.content.substring(0, 2) === prefix;
-  if (checkPrefix && author.bot)
-    //* if message send by a bot
-    return;
+
+  //* prefix and bot check
+  if (!checkPrefix || author.bot) return;
 
   //? help command
   if (command === "help") {
@@ -34,9 +34,9 @@ client.on("message", msg => {
 
   //? clear command
   if (command === "clear") {
-    try {
+    if (parameter !== undefined) {
       msg.channel.bulkDelete(Number(parameter));
-    } catch (e) {
+    } else {
       msg.channel.send("Oops something went wrong");
     }
   }
