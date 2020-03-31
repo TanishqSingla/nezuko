@@ -1,20 +1,26 @@
 //This file contains the basic command and some resources
 const help = callback => {
-	const msg = `:warning: Under Maintainence :warning:`;
-	callback(msg);
+  const msg = `:warning: Under Maintainence :warning:`;
+  callback(msg);
 };
 
-badWords = ["nigg", "cunt", "fucker", "nigga", "nigger", "cuck"];
+const badWords = ["nigg", "cunt", "fucker", "nigga", "nigger", "cuck"];
 
-killPrompt = [
-	`Stop your slaughter party`,
-	`isn't that illegal`,
-	`you're a disgrace`,
-	`You tried to stab but your knife slipped from your hand and pierced your toe`,
-	`You threw a dagger but clearly misjudged the distance`
+const killPrompt = [
+  `Stop your slaughter party`,
+  `isn't that illegal`,
+  `you're a disgrace`,
+  `You tried to stab but your knife slipped from your hand and pierced your toe`,
+  `You threw a dagger but clearly misjudged the distance`
 ];
 
+const kill = callback => {
+  let random = Math.floor(Math.random() * killPrompt.length + 1);
+  callback(`${killPrompt[random]}`);
+};
+
 module.exports = {
-	help,
-	badWords
+  help,
+  badWords,
+  kill
 };

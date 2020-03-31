@@ -19,17 +19,18 @@ client.on("message", msg => {
       msg.channel.send(help);
     });
   }
+
   //? clear command
   if (msg.content.startsWith(`${prefix}clear`)) {
     try {
       let count = msg.content.split(" ")[1];
-      msg.channel.bulkDelete(count);
+      msg.channel.bulkDelete(count + 1);
     } catch (e) {
       msg.channel.send("Oops something went wrong");
-      console.log(e);
     }
   }
-  //? <----- Word filter
+
+  //? Word filter
   if (basic.badWords.some(w => msg.content.toLowerCase().includes(w))) {
     msg.delete();
     msg.channel.send(`Watch your language ${author}`).then(msg => {
@@ -38,7 +39,12 @@ client.on("message", msg => {
       }, 2000);
     });
   }
-  //? -------->
+
+  if (msg.content.startsWith(`${prefix}kill`)) {
+    basic.kill(killMsg => {
+      msg.channel.send(killMsg);
+    });
+  }
 });
 
 //?This statement makes the bot work
