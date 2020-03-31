@@ -19,6 +19,9 @@ client.on("message", msg => {
   const command = args.shift().toLowerCase();
   const parameter = args.shift();
 
+  //* if message send by a bot
+  if (author.bot) return;
+
   //? help command
   if (command === "help") {
     basic.help(help => {
