@@ -11,11 +11,11 @@ const killPrompt = [
   `isn't that illegal`,
   `you're a disgrace`,
   `You tried to stab but your knife slipped from your hand and pierced your toe`,
-  `You threw a dagger but clearly misjudged the distance`
+  `You threw a dagger but clearly misjudged the distance``hmmmph hmmmph`
 ];
 
 const kill = callback => {
-  let random = Math.floor(Math.random() * killPrompt.length + 1);
+  let random = Math.floor(Math.random() * killPrompt.length);
   callback(`${killPrompt[random]}`);
 };
 

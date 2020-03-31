@@ -13,18 +13,23 @@ client.once("ready", () => {
 
 //? help command
 client.on("message", msg => {
+  //? Discord parameters and commands
   const author = msg.author;
-  if (msg.content.startsWith(`${prefix}help`)) {
+  const args = msg.content.slice(prefix.length).split(/ /);
+  const command = args.shift().toLowerCase();
+  const parameter = args.shift();
+
+  //? help command
+  if (command === "help") {
     basic.help(help => {
       msg.channel.send(help);
     });
   }
 
   //? clear command
-  if (msg.content.startsWith(`${prefix}clear`)) {
+  if (command === "clear") {
     try {
-      let count = msg.content.split(" ")[1];
-      msg.channel.bulkDelete(count + 1);
+      msg.channel.bulkDelete(Number(parameter));
     } catch (e) {
       msg.channel.send("Oops something went wrong");
     }
@@ -40,7 +45,7 @@ client.on("message", msg => {
     });
   }
 
-  if (msg.content.startsWith(`${prefix}kill`)) {
+  if (command === "kill") {
     basic.kill(killMsg => {
       msg.channel.send(killMsg);
     });
