@@ -19,7 +19,7 @@ for (const file of commandFiles) {
 }
 
 //utils
-const basic = require("./commands/utils");
+const utils = require("./commands/utils");
 
 //?Code for bot
 client.once("ready", () => {
@@ -38,7 +38,18 @@ client.on("message", msg => {
   const checkPrefix = msg.content.substring(0, 2) === prefix;
 
   //* prefix and bot check
-  if (!checkPrefix || author.bot) return;
+  if (!checkPrefix || author.bot) {
+    if (utils.badWords.some(w => msg.content.toLowerCase().includes(w))) {
+      msg.delete();
+      msg.channel.send(`Watch your language ${author}`).then(msg => {
+        setTimeout(() => {
+          msg.delete();
+        }, 2000);
+      });
+    } else {
+      return;
+    }
+  }
 
   //? help command
   if (command === "help") {
@@ -51,14 +62,6 @@ client.on("message", msg => {
   }
 
   //? Word filter
-  if (basic.badWords.some(w => msg.content.toLowerCase().includes(w))) {
-    msg.delete();
-    msg.channel.send(`Watch your language ${author}`).then(msg => {
-      setTimeout(() => {
-        msg.delete();
-      }, 2000);
-    });
-  }
 
   if (command === "kill") {
     client.commands.get("kill").execute(msg);
