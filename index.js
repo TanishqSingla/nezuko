@@ -31,11 +31,18 @@ client.on("message", msg => {
   //? Discord parameters and commands
   const author = msg.author;
   const args = msg.content.slice(prefix.length).split(/ /);
-  const command = args.shift().toLowerCase();
+  const commandName = args.shift().toLowerCase();
   const parameter = args.shift();
+
+  const command = client.commands.get(commandName);
 
   //check for prefix
   const checkPrefix = msg.content.substring(0, 2) === prefix;
+
+  //check for guild channel
+  if (command.guildOnly && msg.channel.type !== "text") {
+    return msg.reply("I can't execute that command inside DMs!");
+  }
 
   //* prefix and bot check
   if (!checkPrefix || author.bot) {
@@ -52,20 +59,26 @@ client.on("message", msg => {
   }
 
   //? help command
-  if (command === "help") {
-    client.commands.get("help").execute(msg);
+  if (commandName === "help") {
+    try {
+      command.execute(msg);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   //? clear command
-  if (command === "clear") {
-    client.commands.get("clear").execute(msg, parameter);
+  if (commandName === "clear") {
+    command.execute(msg, parameter);
   }
 
   //? Word filter
 
-  if (command === "kill") {
-    client.commands.get("kill").execute(msg);
+  if (commandName === "kill") {
+    command.execute(msg);
   }
+
+  console.log(msg.channel);
 });
 
 //?This statement makes the bot work
