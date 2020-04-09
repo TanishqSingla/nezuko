@@ -40,9 +40,7 @@ client.on("message", msg => {
   const checkPrefix = msg.content.substring(0, 2) === prefix;
 
   //check for guild channel
-  if (command.guildOnly && msg.channel.type !== "text") {
-    return msg.reply("I can't execute that command inside DMs!");
-  }
+
 
   //* prefix and bot check
   if (!checkPrefix || author.bot) {
@@ -78,7 +76,6 @@ client.on("message", msg => {
     command.execute(msg);
   }
 
-  console.log(msg.channel);
 });
 
 //?This statement makes the bot work
